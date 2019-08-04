@@ -1,0 +1,4 @@
+for (final Map.Entry<String, String> entry : HKSFCColList.entrySet()) {
+	final String key = entry.getKey();
+	final String value = entry.getValue();
+}
