@@ -1,0 +1,5 @@
+CtlrmDisclosureReviewDetailDTO dto = tmpDisclosureReviewList.stream()
+.filter(obj -> pojo.getBloombergTickerPojo().getCtrlCode().equals(obj.getStockCode()))
+//filter 
+.findAny().orElse(null);
+//Any Result or null
