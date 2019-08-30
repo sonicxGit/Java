@@ -1,0 +1,8 @@
+go.js 混淆代码 去水印
+以下在go.js混淆代码中直接尝试去掉水印: 
+搜索 7eba17a4ca3b1a8346 
+获取：a.Hv=d[w.Kg(“7eba17a4ca3b1a8346”)]w.Kg(“78a118b7”); 
+修改为a.Hv=function(){return true;}
+————————————————
+版权声明：本文为CSDN博主「dolan1123」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/qq_16849383/article/details/81218914
