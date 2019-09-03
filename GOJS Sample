@@ -1,0 +1,94 @@
+//Sample 1 Workflow diagram/Function Flow
+
+
+<div id="myDiagramDiv" style="height: 330px; margin-right: 4px" />
+<script>
+function chartInit(nodeDataArray) { //nodeDataArray format, { key, parent, color, prop1 *additional data pass }
+	 
+  var $ = go.GraphObject.make;  // for conciseness in defining templates
+
+ //diagram config
+  var diagram = $(go.Diagram, "myDiagramDiv",  // id of DIV
+    { // Automatically lay out the diagram as a tree;
+      // separate trees are arranged vertically above each other.
+      layout: $(go.TreeLayout, { nodeSpacing: 3 })
+    });
+
+  // Define a node template showing class names.
+  // Clicking on the node opens up the documentation for that class.
+  
+	var codeMap = {};
+  
+	 for(var i = 0; i < nodeDataArray.length; i++) {
+		var obj = nodeDataArray[i];
+
+		codeMap[obj.key] = obj.prop1;
+	}
+  
+  //node config
+  diagram.nodeTemplate =
+    $(go.Node,
+      $("HyperlinkText",
+        // compute the URL to open for the documentation
+        function(node) { return ""; },
+        // define the visuals for the hyperlink, basically the whole node:
+        $(go.Panel, "Auto",
+          $(go.Shape, { fill: "#15bbd1", stroke: null }, //default border color
+          new go.Binding("fill", "color")), //bind border color properties to data 'color'
+          $(go.TextBlock,
+            {
+              font: "bold 16px Helvetica, bold Arial, sans-serif",
+              stroke: "white", 
+			  margin: 4,
+			  overflow: go.TextBlock.OverflowClip,
+			  width: 140,
+			  click: function(e, obj) 
+			  {
+				  try {
+					  if(obj.part.data.key == 'File Maintenance') {
+						  showFileMaintenance();
+					  }
+					  else if (obj.part.data.key == 'Data Table Maintenance') {
+						  showDatatableMaintenance();
+					  }
+					  else if(codeMap[obj.part.data.key] == 'TASK') {
+						  togglePreviewBox();
+					  } 
+					  else {
+						  document.getElementById('item' + codeMap[obj.part.data.key]).getElementsByTagName('a')[0].click();						  
+					  }
+			      } 
+				  catch
+				  {
+					  
+				  }
+			  
+			  }
+            },
+            new go.Binding("text", "key"), //bind text properties to data 'key'
+            new go.Binding("fill", "color")) //bind background color properties to data 'color'
+        )
+      )
+    );
+	
+  //link config
+	 diagram.linkTemplate =
+        $(go.Link,  // the whole link panel
+          new go.Binding("points").makeTwoWay(),
+          { curve: go.Link.Bezier, toShortLength: 8 },
+          new go.Binding("curviness", "curviness"),
+          $(go.Shape,  // the link shape
+            { stroke: "#2F4F4F", strokeWidth: 2.5 }),
+          $(go.Shape,  // the arrowhead
+            { toArrow: "Standard", fill: "#2F4F4F", stroke: null, scale: 2 })
+        );
+
+  
+ 
+      // Create the model for the hierarchy diagram
+      diagram.model = new go.TreeModel(nodeDataArray);
+}
+</script>
+
+
+ 
